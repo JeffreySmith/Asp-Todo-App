@@ -1,0 +1,20 @@
+
+@model Todo.Models.Note
+
+@{
+    ViewData["title"] = "Shared Note";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    <p>@Html.DisplayFor(model=>model.Contents)</p>
+    <p>Created by: @Html.DisplayFor(model=>model.Email)</p>
+</div>
+</body>
+</html>

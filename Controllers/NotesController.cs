@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Todo.Data;
 using Todo.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Todo.Controllers
 {
+   [Authorize]
     public class NotesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,6 +24,7 @@ namespace Todo.Controllers
             _context = context;
         }
 
+        
         // GET: Notes
         public async Task<IActionResult> Index()
         {
@@ -33,6 +37,38 @@ namespace Todo.Controllers
                           View(await _context.Notes.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Todos'  is null.");
         }
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("/Notes/Share/{uuid}/")]
+        public async Task<IActionResult> Share(string? uuid)
+        {
+            
+            if (_context.Notes != null && uuid!=null )
+            {
+                Console.WriteLine("UUID is: "+uuid);
+                Console.WriteLine("We expect it to be "+"051530ff-f9ad-42cd-9c27-735e48cd2229");
+                List<Note> notes = await _context.Notes.ToListAsync();
+                var note = notes.Where(model => model.Uuid == uuid);
+                Console.WriteLine("Length is: "+note.ToArray().Length);
+                if (note.ToArray().Length >= 1)
+                {
+                    Console.WriteLine("Is this running?");
+                    Note myNote = note.ToArray()[0];
+
+                    if (myNote.Share)
+                    {
+                        return View(myNote);
+                    }
+
+
+                }
+            }
+            
+            return View("NotFound");
+        }
+
+     
+       
 
         // GET: Notes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -91,7 +127,9 @@ namespace Todo.Controllers
                 return NotFound();
             }
             ViewBag.email = User.FindFirstValue(ClaimTypes.Email);
-            ViewBag.uuid = Guid.NewGuid().ToString();
+            ViewBag.uuid = note.Uuid;
+            
+            
             ViewBag.startDate = note.StartDate.ToString().Substring(0,10);
             ViewBag.endDate = note.EndDate.ToString().Substring(0,10);
             Console.WriteLine(note.StartDate);
