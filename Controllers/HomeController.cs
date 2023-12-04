@@ -21,7 +21,7 @@ namespace Todo.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }
