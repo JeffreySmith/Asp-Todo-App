@@ -4,6 +4,12 @@
     ViewData["Title"] = "Details";
 }
 <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<style>
+    #qrcode{
+        margin: 10px 0;
+    }
+</style>
+
 <h1>Details</h1>
 
 <div>
@@ -61,12 +67,13 @@
     </dl>
 </div>
 
-@if (ViewBag.share)
+@if (ViewBag.share && ViewBag.url !=null && ViewBag.url!="")
 {
+    <label>QR Code for sharing: </label>
     <div id="qrcode"></div>
 }
 <script type="text/javascript">
-    new QRCode(document.getElementById("qrcode"),"@ViewBag.url:5247/Notes/Share/@ViewBag.uuid/");
+    new QRCode(document.getElementById("qrcode"),"@ViewBag.url/Notes/Share/@ViewBag.uuid/");
 </script>
 
 
