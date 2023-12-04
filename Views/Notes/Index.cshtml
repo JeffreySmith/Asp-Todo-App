@@ -3,14 +3,36 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
+<style>
+    form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    form label{
+        width:276px;
+        text-align: left;
+        margin: 5px;
+    }
+    input[type="submit"]{
+        margin: 10px;
+    }
+    
+</style>
+<h1 style="text-align: center">Your Notes</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
-    <a asp-action="Share">TEST</a>
-    <a href="/Notes/Share/051530ff-f9ad-42cd-9c27-735e48cd2229">Click here</a>
+    <a asp-action="Create">Add a New Note</a>
 </p>
+
+<form asp-controller="Notes" asp-action="Index" method="get">
+    <label>Contains: <input class="form-control form-control-sm" type="text" name="SearchString"/>
+        
+    </label>
+    <label>Tag: <input class="form-control" type="text" name="TagString"/></label>
+    <input class="btn btn-primary" type="submit" value="Filter"/>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -34,12 +56,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.Share)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Uuid)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
+           
+            
             <th></th>
         </tr>
     </thead>
@@ -63,12 +81,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Share)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uuid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

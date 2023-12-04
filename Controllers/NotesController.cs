@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -18,24 +19,39 @@ namespace Todo.Controllers
     public class NotesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public NotesController(ApplicationDbContext context)
+        private IConfiguration configuration;
+        public NotesController(ApplicationDbContext context,IConfiguration Config)
         {
+            configuration = Config;
             _context = context;
         }
 
         
         // GET: Notes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString,string tagString)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var email = User.FindFirstValue(ClaimTypes.Email);
+
+            if (_context.Notes == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Todos'  is null.");
+            }
+
+            var notes = from n in _context.Notes select n;
+            if (!String.IsNullOrEmpty((searchString)))
+            {
+                notes = notes.Where(n => n.Contents!.Contains(searchString));
+            }
+
+            if (!String.IsNullOrEmpty(tagString))
+            {
+                notes = notes.Where(n => n.Tags!.Contains(tagString));
+            }
             
             Console.WriteLine("User id is: "+userId);
             Console.WriteLine("User email is "+email);
-            return _context.Notes != null ? 
-                          View(await _context.Notes.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Todos'  is null.");
+            return View(await notes.ToListAsync());
         }
         [AllowAnonymous]
         [HttpGet]
@@ -73,18 +89,22 @@ namespace Todo.Controllers
         // GET: Notes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var email = User.FindFirstValue(ClaimTypes.Email);
             if (id == null || _context.Notes == null)
             {
                 return NotFound();
             }
 
-            var note = await _context.Notes
+            var note = await _context.Notes .Where(n=>n.Email == email)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (note == null)
             {
                 return NotFound();
             }
 
+            ViewBag.url = configuration.GetValue<String>("myUrl");
+            ViewBag.share = note.Share;
+            ViewBag.uuid = note.Uuid;
             return View(note);
         }
 
@@ -132,6 +152,7 @@ namespace Todo.Controllers
             
             ViewBag.startDate = note.StartDate.ToString().Substring(0,10);
             ViewBag.endDate = note.EndDate.ToString().Substring(0,10);
+            ViewBag.url = configuration.GetValue<String>("myUrl");
             Console.WriteLine(note.StartDate);
             return View(note);
         }

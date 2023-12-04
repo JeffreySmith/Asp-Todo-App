@@ -9,6 +9,7 @@ public class Note
 {
     [Key]
     public int Id { get; set; }
+    [DisplayName("Note")]
     public string? Contents { get; set; }
     [DataType(DataType.Date)]
     [DisplayFormat(ApplyFormatInEditMode = true,DataFormatString = "{0:yyyy/MM/dd}")]

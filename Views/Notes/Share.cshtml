@@ -6,15 +6,24 @@
 }
 
 <!DOCTYPE html>
+<style>
+    container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
 
 <html>
 <head>
     <title>title</title>
 </head>
 <body>
-<div>
+<div class="container">
     <p>@Html.DisplayFor(model=>model.Contents)</p>
-    <p>Created by: @Html.DisplayFor(model=>model.Email)</p>
+    <p>Start Date: @Html.DisplayFor(model=>model.StartDate)</p>
+    <p>End Date: @Html.DisplayFor(model=>model.EndDate)</p>
+    <p>Shared by: @Html.DisplayFor(model=>model.Email)</p>
 </div>
 </body>
 </html>
