@@ -40,6 +40,8 @@ namespace Todo.Controllers
             {
                 notes = notes.Where(n => n.Tags!.Contains(tagString));
             }
+
+            notes = notes.Where(n => n.Email == email);
             
             Console.WriteLine("User id is: "+userId);
             Console.WriteLine("User email is "+email);
