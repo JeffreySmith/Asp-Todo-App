@@ -42,7 +42,7 @@ namespace Todo.Controllers
             }
 
             notes = notes.Where(n => n.Email == email);
-            
+            notes = notes.OrderBy(n => n.EndDate);
             Console.WriteLine("User id is: "+userId);
             Console.WriteLine("User email is "+email);
             return View(await notes.ToListAsync());

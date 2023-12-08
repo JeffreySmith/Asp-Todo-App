@@ -1,4 +1,3 @@
-@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model Todo.Models.Note
 
 @{
@@ -22,17 +21,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input type="date" asp-for="StartDate" class="form-control"/>
+                <input required type="date" asp-for="StartDate" class="form-control"/>
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EndDate" class="control-label"></label>
-                <input type="date" asp-for="EndDate" class="form-control"/>
+                <input required type="date" asp-for="EndDate" class="form-control"/>
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Priority" class="control-label"></label>
-                <input asp-for="Priority" class="form-control"/>
+                <input asp-for="Priority" value="1" class="form-control"/>
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
             <div class="form-group">

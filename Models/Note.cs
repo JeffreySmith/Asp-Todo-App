@@ -10,15 +10,17 @@ public class Note
     [Key]
     public int Id { get; set; }
     [DisplayName("Note")]
-    public string? Contents { get; set; }
+    public string Contents { get; set; }
+    [Required(ErrorMessage = "Please enter a startdate")]
     [DataType(DataType.Date)]
     [DisplayFormat(ApplyFormatInEditMode = true,DataFormatString = "{0:yyyy/MM/dd}")]
     [DisplayName("Start Date")]
-    public DateTime? StartDate { get; set; }
+    public DateTime StartDate { get; set; }
     [DataType(DataType.Date)]
     [DisplayFormat(ApplyFormatInEditMode = true,DataFormatString = "{0:yyyy/MM/dd}")] //yyyy/MM/dd
     [DisplayName("End Date")]
-    public DateTime? EndDate { get; set; }
+    
+    public DateTime EndDate { get; set; }
     public int? Priority { get; set; }
     
     public String? Tags { get; set; }
