@@ -1,6 +1,6 @@
 This is my Final Project for PROG8550, a course on ASP.NET Core, and the code for the page hosted 
 <a href="http://jsmith7-001-site1.atempurl.com">here</a>.
-You shouldn't need to edit the ConnectionString since it is connected directly to the hosted SQL Server, well, server.
+You will need to edit the ConnectionStrings to add your own "OnlineServer". If I've distributed the application to you, it should already be set up to go.
 
 If you do want to try it locally, you'll need to edit a few things:
 * Change which connection string is selected in Program.cs (change it to "DefaultConnection")
